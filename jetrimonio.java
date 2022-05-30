@@ -43,15 +43,21 @@ public class Jetrimonio {
 
     public void keyboardInput() {
         // get keyboard input
-        if (StdDraw.isKeyPressed(37)) { // left
-            x --;
-        }
-        if (StdDraw.isKeyPressed(39)) { // right
-            x ++;
-        }
-        if (StdDraw.isKeyPressed(38)) { // up
-            spin();
-            StdDraw.pause(50);
+        char key;
+        if (StdDraw.hasNextKeyTyped()) {
+            key = StdDraw.nextKeyTyped();
+            if (key == 'a') {
+                x --;
+            }
+            if (key == 'd') {
+                x ++;
+            }
+            if (key == 's') {
+                moveDown();
+            }
+            if (key == 'w') {
+                spin();
+            }
         }
     }
 }
