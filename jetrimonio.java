@@ -14,6 +14,9 @@ public class jetrimonio {
             {" ","o"," "," "}
         }
     };
+    private int rotation = 0;
+    private int x = 0;
+    private int y = 0;
 
     public jetrimonio() {
 
