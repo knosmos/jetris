@@ -1,6 +1,6 @@
 public class Jetrimonio {
     private int color;
-    private int[][][] layouts = {
+    public int[][][] layouts = {
         {
             {0,0,0,0},
             {1,1,1,1},
@@ -25,10 +25,20 @@ public class Jetrimonio {
 
     public void spin() {
         rotation = (rotation + 1) % layouts.length;
+        while (testLeftWall()) {
+            x ++;
+        }
+        while (testRightWall()) {
+            x --;
+        }
     }
 
     public void moveDown() {
         y += 1;
+    }
+
+    public void moveUp() {
+        y -= 1;
     }
 
     public void render() {
@@ -41,6 +51,34 @@ public class Jetrimonio {
         }
     }
 
+    private boolean testLeftWall() {
+        // returns true if any part of the piece is touching the left wall
+        for (int i=0; i<4; i++) {
+            for (int j=0; j<4; j++) {
+                if (layouts[rotation][i][j] == 1) {
+                    if (j+x < 0) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean testRightWall() {
+        // returns true if any part of the piece is touching the right wall
+        for (int i=0; i<4; i++) {
+            for (int j=0; j<4; j++) {
+                if (layouts[rotation][i][j] == 1) {
+                    if (j+x >= Board.width) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     public void keyboardInput() {
         // get keyboard input
         char key;
@@ -48,9 +86,15 @@ public class Jetrimonio {
             key = StdDraw.nextKeyTyped();
             if (key == 'a') {
                 x --;
+                if (testLeftWall()) {
+                    x ++;
+                }
             }
             if (key == 'd') {
                 x ++;
+                if (testRightWall()) {
+                    x --;
+                }
             }
             if (key == 's') {
                 moveDown();
@@ -59,5 +103,21 @@ public class Jetrimonio {
                 spin();
             }
         }
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public int getColor() {
+        return color;
+    }
+
+    public int[][] getLayout() {
+        return layouts[rotation];
     }
 }

@@ -47,6 +47,60 @@ public class Board {
         }
     }
 
+    public void freeze_piece(Jetrimonio piece) {
+        // integrates piece into state
+        for (int i=0; i<4; i++) {
+            for (int j=0; j<4; j++) {
+                if (piece.getLayout()[i][j] == 1) {
+                    state[i + piece.getY()][j + piece.getX()] = piece.getColor();
+                }
+            }
+        }
+    }
+
+    public boolean test_collide(Jetrimonio piece) {
+        for (int i=0; i<4; i++) {
+            for (int j=0; j<4; j++) {
+                if (piece.getLayout()[i][j] == 1) {
+                    if (piece.getY() + i >= height) {
+                        return true;
+                    }
+                    if (state[i + piece.getY()][j + piece.getX()] != 0) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean clear_row() {
+        for (int y=0; y<height; y++) {
+            boolean clear = true;
+            for (int x=0; x<width; x++) {
+                if (state[y][x] == 0) {
+                    clear = false;
+                    break;
+                }
+            }
+            if (clear) {
+                StdOut.println("clearing row");
+                // clear row
+                for (int x=0; x<width; x++) {
+                    state[y][x] = 0;
+                }
+                // move rows down
+                for (int i=y-1; i>=0; i--) {
+                    for (int x=0; x<width; x++) {
+                        state[i+1][x] = state[i][x];
+                    }
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static void draw_block(int x, int y, int c) {
         int[] color = colors[c];
         StdDraw.setPenColor(color[0], color[1], color[2]);
