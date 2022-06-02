@@ -80,28 +80,20 @@ public class Jetrimonio {
     }
 
     public void keyboardInput() {
-        // get keyboard input
-        char key;
-        if (StdDraw.hasNextKeyTyped()) {
-            key = StdDraw.nextKeyTyped();
-            if (key == 'a') {
-                x --;
-                if (testLeftWall()) {
-                    x ++;
-                }
-            }
-            if (key == 'd') {
+        if (StdDraw.isKeyPressed(65)) { // left
+            x --;
+            if (testLeftWall()) {
                 x ++;
-                if (testRightWall()) {
-                    x --;
-                }
             }
-            if (key == 's') {
-                moveDown();
+        }
+        if (StdDraw.isKeyPressed(68)) { // right
+            x ++;
+            if (testRightWall()) {
+                x --;
             }
-            if (key == 'w') {
-                spin();
-            }
+        }
+        if (StdDraw.isKeyPressed(83)) {
+            moveDown();
         }
     }
 

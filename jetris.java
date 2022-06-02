@@ -20,11 +20,11 @@ public class Jetris {
         clip.start();
 
         int drop_ctr = 0;
-        int drop_cycle_length = 10;
+        int drop_cycle_length = 20;
 
         int score = 0;
 
-        Font font = new Font("Futura", Font.PLAIN, 20);
+        Font font = new Font("Futura", Font.BOLD, 20);
         StdDraw.setFont(font);
 
         while (true) {
@@ -33,21 +33,35 @@ public class Jetris {
             piece.keyboardInput();
             board.render();
 
+            // get keyboard input
+            char key;
+            if (StdDraw.hasNextKeyTyped()) {
+                key = StdDraw.nextKeyTyped();
+                if (key == 'w') {
+                    piece.spin();
+                }
+                if (key == ' ') {
+                    while (!board.test_collide(piece)) {
+                        piece.moveDown();
+                    }
+                }
+            }
+
             if (board.test_collide(piece)) {
                 while (board.test_collide(piece)) {
                     piece.moveUp();
                 }
                 board.freeze_piece(piece);
                 piece = getRandomPiece();
-                score += 10;
-                for (int i=0; i<4; i++) {
-                    board.clear_row();
+                while (board.clear_row()) {
+                    score += 10;
                 }
                 if (score % 90 == 0) {
                     drop_cycle_length -= 1;
                     if (drop_cycle_length < 2) {
                         drop_cycle_length = 2;
                     }
+                    drop_ctr = 0;
                 }
             }
 
@@ -57,7 +71,7 @@ public class Jetris {
                 drop_ctr = 0;
             }
 
-            StdDraw.text(11, 0.5, "T E T R I S");
+            StdDraw.text(11, 0.5, "J E T R I S");
             StdDraw.text(3, 11, "SCORE: " + score);
             StdDraw.text(19, 11, "LVL: " + (int)(score / 90));
 
