@@ -51,6 +51,26 @@ public class Jetrimonio {
         }
     }
 
+    public void render_grey() {
+        for (int i=0; i<4; i++) {
+            for (int j=0; j<4; j++) {
+                if (layouts[rotation][i][j] == 1) {
+                    Board.draw_block(j+x, i+y, 6);
+                }
+            }
+        }
+    }
+
+    public void render_shadow(Board board) {
+        int original_y = y;
+        while (!board.test_collide(this)) {
+            moveDown();
+        }
+        moveUp();
+        render_grey();
+        y = original_y;
+    }
+
     private boolean testLeftWall() {
         // returns true if any part of the piece is touching the left wall
         for (int i=0; i<4; i++) {

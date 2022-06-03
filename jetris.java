@@ -29,7 +29,11 @@ public class Jetris {
 
         while (true) {
             StdDraw.clear();
+            StdDraw.setPenColor(250, 250, 250);
+            StdDraw.filledRectangle(11, 11, 11, 11);
+
             piece.render();
+            piece.render_shadow(board);
             piece.keyboardInput();
             board.render();
 
@@ -56,7 +60,7 @@ public class Jetris {
                 while (board.clear_row()) {
                     score += 10;
                 }
-                if (score % 90 == 0) {
+                if (score % 180 == 0) {
                     drop_cycle_length -= 1;
                     if (drop_cycle_length < 2) {
                         drop_cycle_length = 2;

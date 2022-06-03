@@ -12,7 +12,8 @@ public class Board {
         {255, 202, 58},
         {138, 201, 38},
         {25, 130, 196},
-        {106, 76, 147}
+        {106, 76, 147},
+        {200, 200, 200}
     };
 
     public Board() {
@@ -105,5 +106,7 @@ public class Board {
         int[] color = colors[c];
         StdDraw.setPenColor(color[0], color[1], color[2]);
         StdDraw.filledRectangle(x + pad_x + 0.5, y + pad_y + 0.5, 0.5, 0.5);
+        StdDraw.setPenColor(Math.min(255, color[0]+40), Math.min(255, color[1]+40), Math.min(255, color[2]+40));
+        StdDraw.filledRectangle(x + pad_x + 0.3, y + pad_y + 0.3, 0.2, 0.2);
     }
 }
