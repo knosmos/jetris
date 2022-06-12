@@ -3,8 +3,8 @@ public class Board {
     public static int height = 20;
     private int[][] state = new int[height][width];
 
-    public static int pad_x = 6;
-    public static int pad_y = 1;
+    public static int pad_x = 7;
+    public static int pad_y = 2;
 
     public static int[][] colors = new int[][]{
         {255, 255, 255},
@@ -70,6 +70,16 @@ public class Board {
                         return true;
                     }
                 }
+            }
+        }
+        return false;
+    }
+
+    public boolean game_end(Jetrimonio piece) {
+        while (test_collide(piece)) {
+            piece.moveUp();
+            if (piece.getY() < 0) {
+                return true;
             }
         }
         return false;

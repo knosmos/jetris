@@ -5,8 +5,8 @@ import java.awt.Font;
 
 public class Jetris {
     public static void main(String[] args) throws Exception {
-        StdDraw.setXscale(0, 22);
-        StdDraw.setYscale(22, 0);
+        StdDraw.setXscale(0, 24);
+        StdDraw.setYscale(24, 0);
         StdDraw.enableDoubleBuffering();
 
         Board board = new Board();
@@ -30,12 +30,17 @@ public class Jetris {
         while (true) {
             StdDraw.clear();
             StdDraw.setPenColor(250, 250, 250);
-            StdDraw.filledRectangle(11, 11, 11, 11);
+            StdDraw.filledRectangle(12, 12, 12, 12);
 
-            piece.render();
             piece.render_shadow(board);
+            piece.render();
+            
             piece.keyboardInput();
             board.render();
+
+            StdDraw.text(12, 1, "J E T R I S");
+            StdDraw.text(3, 12, "SCORE: " + score);
+            StdDraw.text(21, 12, "LVL: " + (int)(score / 90));
 
             // get keyboard input
             char key;
@@ -52,6 +57,22 @@ public class Jetris {
             }
 
             if (board.test_collide(piece)) {
+                if (board.game_end(piece)) {
+                    StdDraw.text(12, 23, "GAME OVER (CLICK TO RESTART)");
+                    while (true) {
+                        StdDraw.show();
+                        StdDraw.pause(50);
+                        if (StdDraw.isMousePressed()) {
+                            break;
+                        }
+                    }
+                    board = new Board();
+                    piece = getRandomPiece();
+                    drop_ctr = 0;
+                    drop_cycle_length = 20;
+                    score = 0;
+                    continue;
+                }
                 while (board.test_collide(piece)) {
                     piece.moveUp();
                 }
@@ -74,10 +95,6 @@ public class Jetris {
                 piece.moveDown();
                 drop_ctr = 0;
             }
-
-            StdDraw.text(11, 0.5, "J E T R I S");
-            StdDraw.text(3, 11, "SCORE: " + score);
-            StdDraw.text(19, 11, "LVL: " + (int)(score / 90));
 
             StdDraw.show();
             StdDraw.pause(50);
